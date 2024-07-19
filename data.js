@@ -1,4 +1,19 @@
-{
+// Example Data
+// This file contains the data that will be used to generate the tabs and the content of the tabs
+// The data is structured as follows:
+// {
+//     "tabs": [
+//         {
+//             "name": "Name of the Tab",
+//             "content": [
+//                 {
+//                     "name": "Name of the subdivision",
+//                     "content": [
+//                         { "text": "Text 1", "tags": ["tag1", "tag2"] }, // tags are optional
+//                         { "text": "Text 2", "tags": [] }                // but tag arrays must be present
+//                     ]
+//                 } ...
+const data = {
     "tabs" : [
         {
             "name": "Tab 1",
