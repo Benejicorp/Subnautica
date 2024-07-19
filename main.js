@@ -175,6 +175,17 @@ function createPart(tab, part, checkedCount, totalCount) {
 }
 
 function createTab(tab) {
+    const allTags = new Set();
+    tab.content.forEach(part => {
+        part.content.forEach(item => {
+            item.tags.forEach(tag => allTags.add(tag));
+        });
+    });
+
+    const tagButtons = Array.from(allTags).map(tag => 
+        `<button class="tag-filter active" data-tag="${tag}">${tag}</button>`
+    ).join('');
+
     const parts = tab.content.map(part => {
         const checkedCount = part.content.filter(text => 
             localStorage.getItem(generateCheckboxId(tab, part, text)) === 'true'
@@ -186,6 +197,10 @@ function createTab(tab) {
     const tableOfContents = `
         <div class="table-of-contents">
             <h2>Contents</h2>
+            <div class="tag-filters">
+                <button class="tag-filter" data-tag="select-all">Select All</button>
+                ${tagButtons}
+            </div>
             <ul>
                 ${tab.content.map(part => {
                     const checkedCount = part.content.filter(text => 
@@ -197,7 +212,7 @@ function createTab(tab) {
                         <a href="#${sanitizeId(tab.name)}-${sanitizeId(part.name)}">
                             ${part.name}
                             <span id="${tocId}" class="toc-count ${checkedCount === totalCount ? 'all-checked' : ''}">
-                                ${checkedCount === totalCount ? 'DONE' : `[ ${checkedCount}/${totalCount} ]`}
+                                ${checkedCount === totalCount ? 'DONE' : `${checkedCount}/${totalCount}`}
                             </span>
                         </a>
                     </li>`;
@@ -214,6 +229,61 @@ function createTab(tab) {
             </div>
         </div>
     `;
+}
+
+let activeTags = new Set();
+
+function initializeTags() {
+    const tagButtons = document.querySelectorAll('.tag-filter:not([data-tag="clear-all"])');
+    tagButtons.forEach(button => {
+        activeTags.add(button.getAttribute('data-tag'));
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initializeTags);
+
+document.addEventListener('click', function(e) {
+    if (e.target && e.target.classList.contains('tag-filter')) {
+        const tag = e.target.getAttribute('data-tag');
+        
+        if (tag === 'clear-all') {
+            // Activate all tags
+            document.querySelectorAll('.tag-filter').forEach(btn => {
+                if (btn.getAttribute('data-tag') !== 'clear-all') {
+                    btn.classList.add('active');
+                    activeTags.add(btn.getAttribute('data-tag'));
+                }
+            });
+        } else {
+            if (activeTags.has(tag)) {
+                activeTags.delete(tag);
+                e.target.classList.remove('active');
+            } else {
+                activeTags.add(tag);
+                e.target.classList.add('active');
+            }
+        }
+        
+        filterByTags(activeTags);
+    }
+});
+
+function filterByTags(tags) {
+    const items = document.querySelectorAll('.part li');
+    const allTagButtons = document.querySelectorAll('.tag-filter:not([data-tag="clear-all"])');
+    
+    if (tags.size === allTagButtons.length) {
+        // All tags are active, show all items
+        items.forEach(item => item.style.display = '');
+    } else {
+        items.forEach(item => {
+            if (Array.from(tags).some(tag => item.classList.contains(tag))) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
 }
 
 function saveActiveTab(tabId) {
