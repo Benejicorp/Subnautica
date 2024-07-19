@@ -143,7 +143,7 @@ function createCheckbox(tab, part, text) {
     const isChecked = localStorage.getItem(id) === 'true';
     return `
         <li class="${text.tags.join(' ')}">
-            <div class="checkbox-wrapper" data-tab="${sanitizeId(tab.name)}" data-part="${sanitizeId(part.name)}" data-text="${sanitizeId(text.text)}">
+            <div class="checkbox-wrapper" data-tab="${sanitizeId(tab.name)}" data-part="${sanitizeId(part.name)}">
                 <input type="checkbox" id="${id}" ${isChecked ? 'checked' : ''}>
                 <label for="${id}">${text.text}</label>
             </div>
@@ -151,47 +151,67 @@ function createCheckbox(tab, part, text) {
     `;
 }
 
-document.addEventListener('click', function(e) {
-    if (e.target && e.target.closest('.checkbox-wrapper')) {
+// Event listener for checkbox changes
+document.addEventListener('change', function(e) {
+    if (e.target && e.target.type === 'checkbox') {
         const wrapper = e.target.closest('.checkbox-wrapper');
-        const checkbox = wrapper.querySelector('input[type="checkbox"]');
-        checkbox.checked = !checkbox.checked;
-        
-        const tabId = wrapper.getAttribute('data-tab');
-        const partId = wrapper.getAttribute('data-part');
-        const textId = wrapper.getAttribute('data-text');
-        
-        saveCheckboxState(tabId, partId, textId, checkbox.checked);
+        if (wrapper) {
+            const tabId = wrapper.getAttribute('data-tab');
+            const partId = wrapper.getAttribute('data-part');
+            saveCheckboxState(tabId, partId, e.target.id, e.target.checked);
+        }
     }
 });
 
-function createPart(tab, part) {
+function createPart(tab, part, checkedCount, totalCount) {
     const texts = part.content.map(text => createCheckbox(tab, part, text)).join('');
-    const checkedCount = part.content.filter(text => 
-        localStorage.getItem(generateCheckboxId(tab, part, text)) === 'true'
-    ).length;
-    const totalCount = part.content.length;
-
+    const partId = `${sanitizeId(tab.name)}-${sanitizeId(part.name)}`;
     return `
-        <div id="${sanitizeId(tab.name)}-${sanitizeId(part.name)}" class="part">
-            <h3>${part.name} (<span class="checked-count">${checkedCount}/${totalCount}</span> checked)</h3>
+        <div id="${partId}" class="part">
+            <h3>${part.name} (<span class="checked-count ${checkedCount === totalCount ? 'all-checked' : ''}">${checkedCount === totalCount ? 'DONE' : `${checkedCount}/${totalCount}`}</span>)</h3>
             <ul>${texts}</ul>
         </div>
     `;
 }
 
 function createTab(tab) {
-    const parts = tab.content.map(part => createPart(tab, part)).join('');
-    const tableOfContents = tab.content.map(part => {
-        const partId = `${sanitizeId(tab.name)}-${sanitizeId(part.name)}`;
-        return `<li><a href="#${partId}">${part.name}</a></li>`;
+    const parts = tab.content.map(part => {
+        const checkedCount = part.content.filter(text => 
+            localStorage.getItem(generateCheckboxId(tab, part, text)) === 'true'
+        ).length;
+        const totalCount = part.content.length;
+        return createPart(tab, part, checkedCount, totalCount);
     }).join('');
 
-    const tabId = sanitizeId(tab.name);
+    const tableOfContents = `
+        <div class="table-of-contents">
+            <h2>Contents</h2>
+            <ul>
+                ${tab.content.map(part => {
+                    const checkedCount = part.content.filter(text => 
+                        localStorage.getItem(generateCheckboxId(tab, part, text)) === 'true'
+                    ).length;
+                    const totalCount = part.content.length;
+                    const tocId = `toc-${sanitizeId(tab.name)}-${sanitizeId(part.name)}`;
+                    return `<li>
+                        <a href="#${sanitizeId(tab.name)}-${sanitizeId(part.name)}">
+                            ${part.name}
+                            <span id="${tocId}" class="toc-count ${checkedCount === totalCount ? 'all-checked' : ''}">
+                                ${checkedCount === totalCount ? 'DONE' : `${checkedCount}/${totalCount}`}
+                            </span>
+                        </a>
+                    </li>`;
+                }).join('')}
+            </ul>
+        </div>
+    `;
+
     return `
-        <div id="${tabId}" class="tab">
-            <ul class="table-of-contents">${tableOfContents}</ul>
-            ${parts}
+        <div id="${sanitizeId(tab.name)}" class="tab">
+            ${tableOfContents}
+            <div class="tab-content">
+                ${parts}
+            </div>
         </div>
     `;
 }
@@ -208,19 +228,15 @@ function main() {
     const topbar = document.getElementById('topbar');
     const main = document.getElementById('main');
 
-    topbar.innerHTML = data.tabs.map(tab => {
-        const tabId = sanitizeId(tab.name);
-        return `<button onclick="openTab('${tabId}')">${tab.name}</button>`;
-    }).join('');
+    topbar.innerHTML = `
+        <div class="tab-buttons">
+            ${data.tabs.map(tab => `<button onclick="openTab('${sanitizeId(tab.name)}')">${tab.name}</button>`).join('')}
+        </div>
+    `;
 
     main.innerHTML = data.tabs.map(createTab).join('');
 
-    const activeTab = getActiveTab();
-    if (activeTab && document.getElementById(activeTab)) {
-        openTab(activeTab);
-    } else {
-        openTab(sanitizeId(data.tabs[0].name));
-    }
+    openTab(sanitizeId(data.tabs[0].name));
 }
 
 function openTab(tabId) {
@@ -230,9 +246,8 @@ function openTab(tabId) {
     saveActiveTab(tabId);
 }
 
-function saveCheckboxState(tabId, partId, textId, isChecked) {
-    const id = `${tabId}-${partId}-${textId}`;
-    localStorage.setItem(id, isChecked);
+function saveCheckboxState(tabId, partId, checkboxId, isChecked) {
+    localStorage.setItem(checkboxId, isChecked);
     updateCheckedCount(tabId, partId);
 }
 
@@ -240,7 +255,26 @@ function updateCheckedCount(tabId, partId) {
     const part = document.getElementById(`${tabId}-${partId}`);
     const checkedCount = part.querySelectorAll('input[type="checkbox"]:checked').length;
     const totalCount = part.querySelectorAll('input[type="checkbox"]').length;
-    part.querySelector('.checked-count').textContent = `${checkedCount}/${totalCount}`;
+    
+    // Update the count in the part
+    const checkedCountElement = part.querySelector('.checked-count');
+    updateCountDisplay(checkedCountElement, checkedCount, totalCount);
+
+    // Update the count in the table of contents
+    const tocCountElement = document.getElementById(`toc-${tabId}-${partId}`);
+    if (tocCountElement) {
+        updateCountDisplay(tocCountElement, checkedCount, totalCount);
+    }
+}
+
+function updateCountDisplay(element, checkedCount, totalCount) {
+    if (checkedCount === totalCount) {
+        element.textContent = 'DONE';
+        element.classList.add('all-checked');
+    } else {
+        element.textContent = `${checkedCount}/${totalCount}`;
+        element.classList.remove('all-checked');
+    }
 }
 
 main();

@@ -60,3 +60,38 @@ body {
 input[type="checkbox"] {
     margin-right: 5px;
 }
+
+.checked-count {
+  color: var(--accent);
+  font-weight: normal;
+}
+
+.checked-count.all-checked {
+  color: var(--success);
+  font-weight: bold;
+}
+
+.table-of-contents {
+  font-size: 1.2em;
+}
+
+.table-of-contents a {
+  text-decoration: none;
+  color: var(--foreground);
+
+  padding: 5px 0;
+  transition: color 0.2s ease;
+}
+
+.table-of-contents a:hover {
+  color: var(--highlight);
+}
+
+.toc-count {
+  color: var(--accent);
+}
+
+.toc-count.all-checked {
+  color: var(--success);
+  font-weight: bold;
+}
