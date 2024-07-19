@@ -168,7 +168,7 @@ function createPart(tab, part, checkedCount, totalCount) {
     const partId = `${sanitizeId(tab.name)}-${sanitizeId(part.name)}`;
     return `
         <div id="${partId}" class="part">
-            <h3>${part.name} (<span class="checked-count ${checkedCount === totalCount ? 'all-checked' : ''}">${checkedCount === totalCount ? 'DONE' : `${checkedCount}/${totalCount}`}</span>)</h3>
+            <h3>${part.name} <span class="checked-count ${checkedCount === totalCount ? 'all-checked' : ''}">${checkedCount === totalCount ? 'DONE' : `[ ${checkedCount}/${totalCount} ]`}</span></h3>
             <ul>${texts}</ul>
         </div>
     `;
@@ -197,7 +197,7 @@ function createTab(tab) {
                         <a href="#${sanitizeId(tab.name)}-${sanitizeId(part.name)}">
                             ${part.name}
                             <span id="${tocId}" class="toc-count ${checkedCount === totalCount ? 'all-checked' : ''}">
-                                ${checkedCount === totalCount ? 'DONE' : `${checkedCount}/${totalCount}`}
+                                ${checkedCount === totalCount ? 'DONE' : `[ ${checkedCount}/${totalCount} ]`}
                             </span>
                         </a>
                     </li>`;
@@ -272,7 +272,7 @@ function updateCountDisplay(element, checkedCount, totalCount) {
         element.textContent = 'DONE';
         element.classList.add('all-checked');
     } else {
-        element.textContent = `${checkedCount}/${totalCount}`;
+        element.textContent = `[ ${checkedCount}/${totalCount} ]`;
         element.classList.remove('all-checked');
     }
 }

@@ -6,6 +6,7 @@
     --accent: #5E81AC;
     --success: #A3BE8C;
     --border-radius: 4px;
+    --progress: #ebcb8b
 }
 
 body {
@@ -62,7 +63,7 @@ input[type="checkbox"] {
 }
 
 .checked-count {
-  color: var(--accent);
+  color: var(--progress);
   font-weight: normal;
 }
 
@@ -88,7 +89,7 @@ input[type="checkbox"] {
 }
 
 .toc-count {
-  color: var(--accent);
+  color: var(--progress);
 }
 
 .toc-count.all-checked {
