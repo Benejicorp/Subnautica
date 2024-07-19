@@ -1,67 +1,75 @@
+/* ANCHOR: Root Variables */
 :root {
-    --background: #18181b;
-    --foreground: #ECEFF4;
-    --hover: #1f1f23;
-    --highlight: #88C0D0;
-    --accent: #5E81AC;
-    --success: #A3BE8C;
-    --border-radius: 4px;
-    --progress: #ebcb8b
+  --background: #18181b;
+  --foreground: #ECEFF4;
+  --hover: #1f1f23;
+  --highlight: #88C0D0;
+  --accent: #5E81AC;
+  --success: #A3BE8C;
+  --progress: #ebcb8b;
+  --border-radius: 4px;
 }
 
+/* SECTION: Global Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.4;
-    color: var(--foreground);
-    background-color: var(--background);
-    margin: 0;
-    padding: 20px;
-    font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.4;
+  color: var(--foreground);
+  background-color: var(--background);
+  margin: 0;
+  padding: 20px;
+  font-size: 14px;
 }
+/* !SECTION */
 
+/* SECTION: Top Bar */
 #topbar {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 #topbar button {
-    background-color: var(--accent);
-    color: var(--foreground);
-    border: none;
-    padding: 10px 15px;
-    margin-right: 5px;
-    cursor: pointer;
-    border-radius: var(--border-radius);
+  background-color: var(--accent);
+  color: var(--foreground);
+  border: none;
+  padding: 10px 15px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: var(--border-radius);
 }
 
 #topbar button:hover {
-    background-color: var(--highlight);
+  background-color: var(--highlight);
 }
+/* !SECTION */
 
+/* SECTION: Content Parts */
 .part {
-    background-color: var(--hover);
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: var(--border-radius);
+  background-color: var(--hover);
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: var(--border-radius);
 }
 
 .part h3 {
-    color: var(--highlight);
-    margin-top: 0;
+  color: var(--highlight);
+  margin-top: 0;
 }
 
 .part ul {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 .part li {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 input[type="checkbox"] {
-    margin-right: 5px;
+  margin-right: 5px;
 }
+/* !SECTION */
 
+/* SECTION: Checked Count Display */
 .checked-count {
   color: var(--progress);
   font-weight: normal;
@@ -71,7 +79,9 @@ input[type="checkbox"] {
   color: var(--success);
   font-weight: bold;
 }
+/* !SECTION */
 
+/* SECTION: Table of Contents */
 .table-of-contents {
   font-size: 1.2em;
 }
@@ -79,7 +89,6 @@ input[type="checkbox"] {
 .table-of-contents a {
   text-decoration: none;
   color: var(--foreground);
-
   padding: 5px 0;
   transition: color 0.2s ease;
 }
@@ -96,7 +105,9 @@ input[type="checkbox"] {
   color: var(--success);
   font-weight: bold;
 }
+/* !SECTION */
 
+/* SECTION: Tag Filters */
 .tag-filter {
   background-color: var(--highlight);
   color: var(--background);
@@ -129,3 +140,4 @@ input[type="checkbox"] {
   background-color: var(--accent);
   color: var(--background);
 }
+/* !SECTION */
