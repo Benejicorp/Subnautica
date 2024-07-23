@@ -1,80 +1,28 @@
-// Example Data
-// This file contains the data that will be used to generate the tabs and the content of the tabs
-// The data is structured as follows:
-// {
-//     "tabs": [
-//         {
-//             "name": "Name of the Tab",
-//             "content": [
-//                 {
-//                     "name": "Name of the subdivision",
-//                     "content": [
-//                         { "text": "Text 1", "tags": ["tag1", "tag2"] }, // tags are optional
-//                         { "text": "Text 2", "tags": [] }                // but tag arrays must be present
-//                     ]
-//                 } ...
 const data = {
     "tabs" : [
         {
-            "name": "Tab 1",
+            "name": "Succès",
             "content": [
                 {
-                    "name": "Partie 1",
+                    "name": "Succès",
                     "content": [
-                        { "text": "Texte 1", "tags": ["tag1", "tag2"] },
-                        { "text": "Texte 2", "tags": ["tag3", "tag4"] },
-                        { "text": "Texte 3", "tags": ["tag5", "tag6"] },
-                        { "text": "Texte 4", "tags": ["tag2", "tag4"] }
-                    ]
-                },
-                {
-                    "name": "Partie 2",
-                    "content": [
-                        { "text": "Texte 5", "tags": ["tag1", "tag2"] },
-                        { "text": "Texte 6", "tags": ["tag3", "tag4"] },
-                        { "text": "Texte 7", "tags": ["tag5", "tag6"] },
-                        { "text": "Texte 8", "tags": ["tag2", "tag4"] }
-                    ]
-                },
-                {
-                    "name": "Partie 3",
-                    "content": [
-                        { "text": "Texte 9", "tags": ["tag1", "tag2"] },
-                        { "text": "Texte 10", "tags": ["tag3", "tag4"] },
-                        { "text": "Texte 11", "tags": ["tag5", "tag6"] },
-                        { "text": "Texte 12", "tags": ["tag2", "tag4"] }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Tab 2",
-            "content": [
-                {
-                    "name": "Partie 1",
-                    "content": [
-                        { "text": "Texte 13", "tags": ["tag1", "tag2"] },
-                        { "text": "Texte 14", "tags": ["tag3", "tag4"] },
-                        { "text": "Texte 15", "tags": ["tag5", "tag6"] },
-                        { "text": "Texte 16", "tags": ["tag2", "tag4"] }
-                    ]
-                },
-                {
-                    "name": "Partie 2",
-                    "content": [
-                        { "text": "Texte 17", "tags": ["tag1", "tag2"] },
-                        { "text": "Texte 18", "tags": ["tag3", "tag4"] },
-                        { "text": "Texte 19", "tags": ["tag5", "tag6"] },
-                        { "text": "Texte 20", "tags": ["tag2", "tag4"] }
-                    ]
-                },
-                {
-                    "name": "Partie 3",
-                    "content": [
-                        { "text": "Texte 21", "tags": ["tag1", "tag2"] },
-                        { "text": "Texte 22", "tags": ["tag3", "tag4"] },
-                        { "text": "Texte 23", "tags": ["tag5", "tag6"] },
-                        { "text": "Texte 24", "tags": ["tag2", "tag4"] }
+                        { "text": "Les pieds mouillés - Plongez pour la première fois", "tags": [] },
+                        { "text": "Installation sur le long terme - Construire un habitat", "tags": [] },
+                        { "text": "Extinction évitée - Réparer le réacteur de l'Aurora", "tags": [] },
+                        { "text": "Technologies Anciennes - Trouver la plateforme armée", "tags": [] }
+                        { "text": "Propulsion Personnelle - Construire un Seamoth", "tags": [] }
+                        { "text": "Commandé le Prawn - Construire une combinaison Prawn", "tags": [] }
+                        { "text": "Résidence en bord de mer avec vue sur l'océan - Trouver l'habitat Degasi sur l'ile flottante", "tags": [] }
+                        { "text": "Suivre le Degasi - Trouver l'habitat Degasi dans les grottes des champi-gelées", "tags": [] }
+                        { "text": "Monstre des mers - Trouver la base du Degasi dans les profondeurs des grands récifs", "tags": [] }
+                        { "text": "Meilleur ami de l'homme - Faites éclore un calineur et relachez-le", "tags": [] }
+                        { "text": "Un sous-marin de 40 pieds pour la une - Construire un cyclops", "tags": [] }
+                        { "text": "Suivre la rivière perdue - Trouver le Centre de Recherche Alien", "tags": [] }
+                        { "text": "Activité thermique - Trouver la centrale thermique", "tags": [] }
+                        { "text": "Vingt milles lieues sous les mers - Trouver l'installation de confinement primaire", "tags": [] }
+                        { "text": "Santé optimale - Soigner l'infection", "tags": [] }
+                        { "text": "Laisser seulement les capsules temporelles - Créer et déployer une capsule temporelle", "tags": [] }
+                        { "text": "Filez vers les étoiles - Lancez la fusée Neptune", "tags": [] }
                     ]
                 }
             ]
